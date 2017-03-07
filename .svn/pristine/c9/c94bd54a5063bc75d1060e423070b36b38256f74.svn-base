@@ -1,0 +1,130 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<div class="row-fluid">
+    <div>
+        <h1 class="page-header">分配信息</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="panel panel-default module-panel" id="distribute">
+	<div id="panel-heading" class="panel-heading">
+		<span>分配情况</span>
+		<button type="button" class="btn btn-success btn-xs pull-right" onclick="quickDistribute();">一键分配</button>
+	</div>
+	<div class="panel-body">
+		<div class="dataTable_wrapper">
+	        <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+		        <div class="row-fluid">
+		        	<div class="col-sm-12" id="teacher-table">
+			        	<table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+				            <thead>
+				                <tr role="row"> 
+									<th>名字</th>
+									<th>职称</th>
+									<th>专业</th>
+									<th>学生人数</th>		
+									<th>操作</th>		
+				                </tr>
+				            </thead>
+				            <tbody>
+				            	<c:forEach var="item" items="${list }">
+				            		<tr>
+										<td>${item.name}</td>
+										<td>${item.professional }</td>
+										<td>${item.dept }</td>
+										<td>
+											<c:if test="${item.count_student eq 0 }">
+												<a href="javascript:distribute(${item.account })">未分配</a>
+											</c:if>
+											<c:if test="${item.count_student ne 0}">
+												<button class="btn btn-primary btn-xs" type="button" onclick="showMyStudent(${item.account})">
+													<span class="badge">${item.count_student}</span>
+												</button>
+											</c:if>
+										</td>
+										<c:if test="${item.count_student eq 0 }">
+											<td>
+												该老师还未分配学生，无法进行此操作
+											</td>
+										</c:if>
+										<c:if test="${item.count_student ne 0}">
+											<td>
+												<button id="modify-color" class="btn btn-default btn-xs" type="submit" onclick="distribute(${item.account })"><i class="fa fa-pencil-square-o"></i> 添加</button>
+												<button id="delete-color" class="btn btn-default btn-xs" type="submit" onclick="deleteDistribution(${item.account})"><i class="fa fa-trash-o"></i> 清空</button>	
+											</td>
+										</c:if>
+									</tr>
+				            	</c:forEach>   
+				            </tbody>
+			        	</table>
+		        	</div>
+		        </div>
+	       </div>
+	    </div>
+	</div>
+</div>
+<button id="confirm" type="button" class="btn btn-primary pull-right">确认</button>
+<button id="return" type="button" class="btn btn-default pull-left">返回</button>
+
+<!-- 查看学生 -->
+
+<div id="showMyStudent" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">所带学生</h4>
+            </div>
+	        <div id="container" class="modal-body">
+	        </div>
+	        <div class="modal-footer">
+	            <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+	        </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+$("#confirm").css("display","none");
+$("#return").css("display","none");
+function distribute(account) {
+	$.post("distributeStudent",{"account":account},function(data) {
+		$("#distribute").html(data);
+		$("#confirm").css("display","block");
+		$("#return").css("display","block");
+	},"html");
+}
+
+function deleteDistribution(account) {
+	swal({   
+		title: "确定删除？",   
+		type: "warning",   
+		showCancelButton: true,   
+		confirmButtonColor: "#DD6B55",   
+		confirmButtonText: "确定",   
+		cancelButtonText: "取消",   
+		closeOnConfirm: false,   
+	}, 
+	function(isConfirm) {   
+		if (isConfirm) { 
+			$.ajax({
+				data : "account="+account,
+				type : "post",
+				url : "deleteDistribution",
+				success : function(json) {
+					swal("完成!", json.message, "success");
+					$("#admin-wrapper").load("showdistribution");	
+				}
+			});	   
+		}
+	});	
+}
+
+function showMyStudent(account) {
+	$.post("showMyStudent",{"account" : account}, function(data) {
+		$("#showMyStudent").modal('show');
+		$("#container").html(data);
+	});
+}
+
+</script>

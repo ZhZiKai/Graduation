@@ -1,0 +1,22 @@
+$(function(){
+	$("#wizard").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        stepsOrientation: "vertical",        
+        onStepChanged : function(event, currentIndex, newIndex) {
+        	var begin_time = $("#begin_time"+currentIndex).val();
+        	var end_time = $("#end_time"+currentIndex).val();
+        	$.post("insertTime",{"begin_time":begin_time, "end_time":end_time, "sdid" : currentIndex});
+        },
+    });
+	
+	$('.input-group.date').datepicker({
+		format: "yyyy-mm-dd",
+	    orientation: "bottom left",
+	    calendarWeeks: true,
+	    autoclose: true,
+	    todayHighlight: true,
+	    calendarWeeks: false,
+	});
+})

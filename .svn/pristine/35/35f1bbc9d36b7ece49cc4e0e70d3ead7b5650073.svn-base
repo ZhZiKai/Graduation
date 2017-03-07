@@ -1,0 +1,54 @@
+package com.cn.graduation.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.cn.graduation.common.AjaxObject;
+import com.cn.graduation.model.Student;
+import com.cn.graduation.model.SysDate;
+import com.cn.graduation.model.Teacher;
+
+@Service
+public interface AdminService {
+
+	public Teacher query(Teacher one);
+	
+	public List<Teacher> getAllTeacher(int startPos, int pageSize);
+
+	public List<Student> getAllStudent(int startPos, int pageSize);
+
+	public AjaxObject ajax_insert(Teacher one);
+
+	public long getTeacherCount();
+
+	public long getStudentCount();
+
+	public AjaxObject insertStudent(Student student);
+
+	public List getAllDate();
+
+	public AjaxObject insertTime(SysDate one);
+
+	public List getAllGroup();
+
+	public void insertGroup(String teachers, String students, String name);
+
+	public List getSomeTeacher(int startPos, int pageSize);
+
+	public List getSomeStudent(int startPos, int pageSize);
+
+	public List showdistribution();
+
+	public List distributeStudent();
+
+	public List distributeStudent(int startPos, int pageSize);
+
+	public long getStudentCountByTeacher();
+
+	public long getStudentCountByGroup();
+
+	public long getTeacherCountByGroup();
+
+}

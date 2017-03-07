@@ -1,0 +1,36 @@
+package com.cn.graduation.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.cn.graduation.model.Student;
+import com.cn.graduation.service.StudentService;
+
+
+@Controller
+@RequestMapping(value="/yy/student/*")
+public class StudentController {
+
+	@Autowired
+	@Qualifier("studentService")
+	private StudentService service;
+	
+	@RequestMapping(value="/index")
+	public String index(HttpServletRequest request) {
+		return "student/student";
+	}
+	
+	@RequestMapping(value="/myPaper")
+	public String myPaper(HttpServletRequest request) {
+		Student student = (Student)request.getSession().getAttribute("admin");
+		List papers = service.queryPaper(student);
+		request.setAttribute("papers", papers);
+		return "student/student_mypaper";
+	}
+}

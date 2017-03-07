@@ -1,0 +1,17 @@
+$(function () {
+	$("#addTeacher").click(function () {
+		$.ajax({
+			async : true,
+			cache : false,
+			type : 'POST',
+			dataType:"json",
+			data:$('#teacherForm').serializeArray(),
+			url : 'insertTeacher',
+			success : function (json) {
+				if(json.statusCode == '200') {
+					$("#admin-wrapper").load("../admin/teacherInfo");
+				}
+			}
+		})
+	});
+})

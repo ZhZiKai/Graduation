@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.graduation.dao.TeacherDao">
+	<select id="addPaper">
+		insert into t_paper (tid,title,filepath,state) values (#{tid},#{name},#{path},1)
+	</select>
+	<select id="getMyPaper" resultType="com.cn.graduation.model.Paper">
+		select * from t_paper where tid = #{tid}
+	</select>
+	<select id="getGroupPaper" parameterType="com.cn.graduation.model.Teacher" resultType="com.cn.graduation.model.Paper">
+		select a.* ,b.name as tname,c.score
+		from t_paper a 
+		LEFT JOIN   t_paperscore c on c.pid=a.pid and c.tid = #{tid},
+		 t_teacher b  
+		 where a.tid = b.tid and b.gid= #{gid} and a.tid !=#{tid} ;  
+	</select>
+	<select id="getTeacherById" resultType ="com.cn.graduation.model.Teacher">
+		select * from t_teacher where tid = #{tid}
+	</select>
+	
+	<select id="getMyStudent" resultType="com.cn.graduation.model.Student">
+		select a.* ,b.title as titleName from t_student a  left join t_paper b on b.pid = a.pid  where a.tid = #{tid} 
+	</select>
+	
+	<select id="queryPaperScore" parameterType="com.cn.graduation.model.TpScore" resultType="float">
+		select avg(score) from t_paperscore where pid = #{pid};
+	</select>
+	<select id="getPaperBySid" resultType="com.cn.graduation.model.PaperStudent">
+		select * from t_paperstudent where sid = #{sid}
+	</select>
+	
+	<select id="getMyStudent2" resultType="com.cn.graduation.model.Student">
+		select a.name,a.account,a.classname,a.dept,b.*
+		from t_student a 
+		LEFT JOIN t_paperstudent b ON b.sid=a.sid AND b.sdid = #{sdid} 
+		where a.tid = #{tid}
+	</select>
+	<delete id="deletePaper">
+		delete from t_paper where pid = #{pid}
+	</delete>
+	<update id="updateInfo" parameterType="com.cn.graduation.model.Teacher">
+		update t_teacher set
+		<if test="name != null and name !=''">
+			name=#{name},
+		</if>
+		<if test="email != null and email !=''">
+			email=#{email},
+		</if>
+		<if test="tel != null and tel != '' ">
+			tel=#{tel},
+		</if>
+		<if test="professional != null and professional != ''">
+			professional=#{professional},
+		</if>
+		<if test="dept != null and dept != '' ">
+			dept=#{dept},
+		</if>
+		<if test="password != null and password != '' ">
+			password = #{password},
+		</if>
+		account = #{account}
+		where tid = #{tid}
+	</update>
+	<update id="updateTpaper">
+		update t_paper set state = #{state} where pid = #{pid}
+	</update>
+	<insert id="commentPaper" parameterType="com.cn.graduation.model.TpScore" >
+		insert into t_paperscore (tid,pid,score) values (#{tid},#{pid},#{score})
+	</insert>
+</mapper>

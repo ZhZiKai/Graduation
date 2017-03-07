@@ -1,0 +1,3 @@
+$(function() {
+	$(".pageNo").eq(0).addClass("active");
+});

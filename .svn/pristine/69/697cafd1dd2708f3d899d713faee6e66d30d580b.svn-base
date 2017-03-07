@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.graduation.dao.CommonDao">
+	<select id="loginTeacher" parameterType="com.cn.graduation.model.Teacher" resultType="com.cn.graduation.model.Teacher">
+		select * from t_teacher where account = #{account} and password = #{password}
+	</select>
+	<select id="queryAdmin" parameterType="com.cn.graduation.model.Teacher" resultType="com.cn.graduation.model.Teacher">
+		select * from t_teacher where account = #{account} and password = #{password} and rid = 1
+	</select>
+	<select id="loginStudent" parameterType="com.cn.graduation.model.Student" resultType="com.cn.graduation.model.Student">
+		select * from t_student where account = #{account} and password = #{password}
+	</select>
+	<select id="getNowDate" resultType="com.cn.graduation.model.SysDate">
+		select * from t_sysdate where curdate() <![CDATA[>=]]> str_to_date(begin_time,'%Y-%m-%d' ) and curdate() <![CDATA[<=]]> str_to_date(end_time,'%Y-%m-%d' )
+	</select>
+</mapper>

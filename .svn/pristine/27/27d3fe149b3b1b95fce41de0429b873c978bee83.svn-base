@@ -1,0 +1,30 @@
+$(function () {
+	$("#add-student").fileupload({
+		autoUpload:true,
+    	url:"../admin/add_students",
+    	acceptFileTypes: /(\.|\/)(xls)$/,
+    	done:function(){	
+    		$("#page-wrapper").load("../admin/studentInfo");
+    	},
+    	progressall:function(e,data){
+		    // var progress=parseInt(data.loaded/data.total*100, 10);
+		    // $("#add-commodity-photo-percentage").css("width",progress+"%");
+		    // $("#add-commodity-photo-percentage").text(progress+"%");
+    	}
+    });
+	$("#addStudent").click(function () {
+		$.ajax({
+			async : true,
+			cache : false,
+			type : 'POST',
+			dataType:"json",
+			data:$('#studentForm').serializeArray(),
+			url : 'insertStudent',
+			success : function (json) {
+				if(json.statusCode == '200') {
+					$("#page-wrapper").load("../admin/studentInfo");
+				}
+			}
+		})
+	});
+})

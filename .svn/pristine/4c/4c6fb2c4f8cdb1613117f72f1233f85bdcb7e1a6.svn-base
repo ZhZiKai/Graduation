@@ -1,0 +1,48 @@
+package com.cn.graduation.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.cn.graduation.dao.StudentDao;
+import com.cn.graduation.model.Student;
+import com.cn.graduation.model.Teacher;
+import com.cn.graduation.service.StudentService;
+
+@Service("studentService")
+public class StudentServiceImpl implements StudentService {
+
+	@Resource
+	private StudentDao dao;
+	
+	@Override
+	public Student login(Student one) {
+		return dao.login(one);
+	}
+	
+	@Override
+	public List<Student> query() {
+		return dao.query();
+	}
+	
+	@Override
+	public List queryPaper(Student student) {
+		// TODO Auto-generated method stub
+		return dao.queryPaper(student);
+	}
+
+	@Override
+	public void chooseThesis(String pid, String sid) {
+		// TODO Auto-generated method stub
+		dao.chooseThesis(pid, sid);
+	}
+
+	@Override
+	public Teacher queryTeacherByStudent(Student student) {
+		// TODO Auto-generated method stub
+		return dao.queryTeacherByStudent(student);
+	}
+
+}

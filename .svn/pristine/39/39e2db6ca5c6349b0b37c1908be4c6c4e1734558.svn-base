@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.graduation.dao.AdminDao">
+	<select id="getAllQueryPage" resultType="com.cn.graduation.model.Teacher">
+		select * from t_teacher where rid != 1 order by tid limit #{startPos}, #{pageSize}
+	</select>
+	<select id="getAllStudentPage" resultType="com.cn.graduation.model.Student">
+		select * from t_student order by sid limit #{startPos}, #{pageSize} 
+	</select>
+	<select id="getSomeStudentPage" resultType="com.cn.graduation.model.Student">
+		select * from t_student where gid is null order by sid  limit #{startPos}, #{pageSize}
+	</select>
+	<select id="getSomeTeacherPage" resultType="com.cn.graduation.model.Teacher">
+		select * from t_teacher where gid is null and rid != 1 order by tid  limit #{startPos}, #{pageSize}
+	</select>
+	<select id="distributeStudentPage" resultType="com.cn.graduation.model.Student">
+		select * from t_student where tid is null order by tid  limit #{startPos}, #{pageSize}
+	</select>
+	<insert id="insert" parameterType="com.cn.graduation.model.Teacher" useGeneratedKeys="true" keyProperty="id">
+		insert into t_teacher(rid,account,password,name,professional,dept) values(2,#{account},#{password},#{name},#{professional},#{dept}) 
+	</insert>
+	<select id="queryAccount" resultType="com.cn.graduation.model.Teacher">
+		select * from t_teacher where account = #{account}
+	</select>
+	<select id="getTeacherCount" resultType="long">
+		select count(*) from t_teacher where rid != 1
+	</select>
+	<select id="getStudentCount" resultType="long">
+		select count(*) from t_student 
+	</select>
+	<select id="getStudentCountByTeacher" resultType="long">
+		select count(*) from t_student where tid is null
+	</select>
+	<select id="getStudentCountByGroup" resultType="long">
+		select count(*) from t_student where gid is null
+	</select>
+	<select id="getTeacherCountByGroup" resultType="long">
+		select count(*) from t_teacher where rid != 1 and gid is null
+	</select>
+	<select id="queryStudent" parameterType="com.cn.graduation.model.Student" resultType="com.cn.graduation.model.Student">
+		select * from t_student where account = #{account}
+	</select>
+	
+	<select id="queryStudentBySid" parameterType="com.cn.graduation.model.Student" resultType="com.cn.graduation.model.Student">
+		select * from t_student where sid = #{sid}
+	</select>
+	
+	<insert id="insertStudent" parameterType="com.cn.graduation.model.Student">
+		insert into t_student(name,password,account,dept) values(#{name}, #{password}, #{account}, #{dept})
+	</insert>
+	<select id="getAllDate" resultType="com.cn.graduation.model.SysDate">
+		select * from t_sysdate order by sdid
+	</select>
+	
+	<update id="insertTime">
+		update t_sysdate set begin_time = #{begin_time}, end_time = #{end_time} where sdid = #{sdid}
+	</update>
+	
+	<select id="queryTimeName" resultType="com.cn.graduation.model.SysDate">
+		select * from t_sysdate order by sdid
+	</select>
+	
+	<select id="queryGroup" resultType="com.cn.graduation.model.Group">
+		select g.name,count(distinct(s.sid)) count_student,count(distinct(t.tid)) count_teacher from t_group g,t_student s,t_teacher t where g.gid=s.gid and g.gid=t.gid group by g.gid
+	</select>
+	
+	<insert id="insertGroupName">
+		insert into t_group(name) values(#{name})
+	</insert>
+	
+	<update id="updateGroup">
+		update t_teacher set gid = (select gid from t_group where name = #{name}) 
+		where tid in (${teacher})
+	</update>
+	
+	<update id="updateStudent">
+		update t_student set gid = (select gid from t_group where name = #{name}) 
+		where sid in (${students})
+	</update>
+	
+	<update id="updateStudentBySid" parameterType="com.cn.graduation.model.Student">
+		update t_student set name=#{name},account=#{account},password=#{password},dept=#{dept},
+			classname=#{classname} where sid =#{sid}
+	</update>
+	
+	<select id="queryTeacherByGid" resultType="com.cn.graduation.model.Teacher">
+		select * from t_teacher where gid = #{gid}
+	</select>
+	
+	<select id="queryStudentByGid" resultType="com.cn.graduation.model.Student">
+		select * from t_student where gid = #{gid}
+	</select>
+	
+	<select id="queryTeacherStudent" resultType="com.cn.graduation.model.Teacher">
+		select t.*,count(sid) count_student from t_teacher t left join t_student s on t.tid=s.tid group by t.tid
+	</select>
+	<select id="distributeStudent" resultType="com.cn.graduation.model.Student">
+		select * from t_student where tid is null order by sid
+	</select>
+	
+	<update id="confirmStudent">
+		update t_student set tid = (select tid from t_teacher where account = #{account}) 
+		where sid in (${sids})
+	</update>
+	
+	<select id="queryTeacher" parameterType="com.cn.graduation.model.Teacher" resultType="com.cn.graduation.model.Teacher">
+		select * from t_teacher where tid = #{tid}
+	</select>
+	
+	<update id="updateTeacher" parameterType="com.cn.graduation.model.Teacher">
+		update t_teacher set account = #{account}, name = #{name}, password = #{password}, dept = #{dept}, professional = #{professional}
+		where tid = #{tid}
+	</update>
+	
+	<select id="queryStudentByTid" parameterType="com.cn.graduation.model.Teacher" resultType="com.cn.graduation.model.Student">
+		select * from t_student where tid = #{tid}
+	</select>
+	
+	<delete id="deleteTeacher" parameterType="com.cn.graduation.model.Teacher">
+		delete from t_teacher  where tid = #{tid}
+	</delete>
+	
+	<update id="deleteDistribution" parameterType="com.cn.graduation.model.Teacher">
+		update t_student set tid = null where tid = (select tid from t_teacher where account = #{account})
+	</update>
+	
+	<select id="showMyStudent" parameterType="com.cn.graduation.model.Teacher" resultType="com.cn.graduation.model.Student">
+		select * from t_student where tid = (select tid from t_teacher where account = #{account})
+	</select>
+	
+	<delete id="deleteStudent" parameterType="com.cn.graduation.model.Student">
+		delete from t_student where sid = #{sid}
+	</delete>
+	
+	<update id="updateStudentTeacher" parameterType="com.cn.graduation.model.Student">
+		update t_student set tid = null where account = #{account}
+	</update>
+</mapper>

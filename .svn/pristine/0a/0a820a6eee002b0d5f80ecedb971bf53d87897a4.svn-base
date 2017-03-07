@@ -1,0 +1,17 @@
+$(function () {
+	$("#addStudent").click(function () {
+		$.ajax({
+			async : true,
+			cache : false,
+			type : 'POST',
+			dataType:"json",
+			data:$('#studentForm').serializeArray(),
+			url : 'insertStudent',
+			success : function (json) {
+				if(json.statusCode == '200') {
+					$("#page-wrapper").load("../admin/studentInfo");
+				}
+			}
+		})
+	});
+})

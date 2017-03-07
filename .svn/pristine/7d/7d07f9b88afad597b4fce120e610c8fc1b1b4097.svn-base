@@ -1,0 +1,51 @@
+package com.cn.graduation.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cn.graduation.common.AjaxObject;
+import com.cn.graduation.model.Student;
+import com.cn.graduation.model.Teacher;
+import com.cn.graduation.service.AdminService;
+import com.cn.graduation.service.CommonService;
+
+@Controller
+@RequestMapping(value="/user/*")
+public class UserController {
+
+	@Autowired
+	@Qualifier("adminService")
+	private AdminService service;
+	
+	@RequestMapping(value="/admin/forward")
+	public String forward(HttpServletRequest request) {
+		return "admin/admin_login";
+	}
+	
+	@RequestMapping(value="/admin/checkLogin")
+	@ResponseBody
+	public AjaxObject checkLogin(HttpServletRequest request, Teacher admin) {
+		AjaxObject ajax = new AjaxObject();
+		admin = service.query(admin);
+		if(admin != null) {
+			request.getSession().setAttribute("admin", admin);
+			ajax.setStatusCode("200");
+			ajax.setMessage("登录成功");
+		}else{
+			ajax.setMessage("登录错误，用户名或密码错误");
+		}
+		return ajax;
+	}
+	
+	@RequestMapping(value="/admin/redirect")
+	public String redirect(HttpServletRequest request) {
+		return "admin/admin_login";
+	}
+	
+	
+}

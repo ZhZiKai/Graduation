@@ -1,0 +1,27 @@
+package com.cn.graduation.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.cn.graduation.model.Paper;
+import com.cn.graduation.model.Student;
+import com.cn.graduation.model.SysDate;
+import com.cn.graduation.model.Teacher;
+
+public interface TeacherDao {
+
+	public void addPaper(@Param("name")String name,@Param("path") String path,@Param("tid") String tid);
+
+	public List<Paper> getMyPaper(@Param("tid")String tid);
+
+	public int deletePaper(@Param("pid")String pid);
+
+	public void updateInfo(Teacher one);
+	
+	public Teacher getTeacherById(@Param("tid")String tid);
+
+	public List<Paper> getGroupPaper(Teacher user);
+
+	public List<Student> getMyStudent(@Param("tid")String tid);
+}

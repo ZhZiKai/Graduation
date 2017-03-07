@@ -1,0 +1,13 @@
+package com.cn.graduation.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.cn.graduation.model.Student;
+
+@Service
+public interface StudentService {
+	public Student login(Student one);
+	public List<Student> query();
+}

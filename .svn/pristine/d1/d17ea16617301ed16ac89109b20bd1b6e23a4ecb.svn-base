@@ -1,0 +1,14 @@
+$(function() {
+	var time = $("#session").val();
+	switch(time) {
+		case '确认选题' :
+			$("#student-content").load("../student/choosePaper");
+			break;
+		case '开题检查' :
+			$("#student-content").load("../student/uploadPaperOnKaiti");
+			break;
+		case '中期检查' :
+			$("#student-content").load();
+			break;
+	}
+});

@@ -1,0 +1,36 @@
+$(function () {
+	$("#wizard").steps({
+		headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        onStepChanging : function(event, currentIndex, newIndex) {
+        	var groupName = $("#groupName").val();
+        	if(groupName == null || groupName == "") {
+        		return false;
+        	}else{
+        		return true;
+        	}
+        },
+        onFinishing : function (event, currentIndex)  {
+        	var groupName = $("#groupName").val();
+        	var ids = $("#ids").val();
+        	var sids = $("#sids").val();
+        	if(groupName == null || ids == null || sids == null) {
+        		return false;
+        	}else{
+        		$.post("addGroupInfo",{
+            		"teachers" : ids,
+            		"groupName" : groupName,
+            		"students" : sids
+            	});
+            	return true;
+        	}
+        	
+        	
+        },
+        onFinished: function (event, currentIndex) {
+        	$.post("clearSession");
+            alert("success");
+        }
+    });
+ });

@@ -1,0 +1,45 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<div class="row-fluid">
+    <div>
+        <h1 class="page-header">个人信息</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="panel-body">
+		<form class="form-horizontal" action="" method="post">
+			<div class="form-group">
+				<label for="account" class="col-sm-1 control-label">工号</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="account"  name="account" readonly="true" value="${sessionScope.admin.account }" disabled>
+				</div>
+				<label for="name" class="col-sm-1 control-label">姓名</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control update" id="name" name="name" readonly="true" value="${sessionScope.admin.name }" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email" class="col-sm-1 control-label">邮箱</label>
+				<div class="col-sm-4">
+					<input type="email" class="form-control update" id="email"  name="email" readonly="true" value="${sessionScope.admin.email }" disabled>
+				</div>
+				<label for="tel" class="col-sm-1 control-label">联系电话</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control update" id="tel" name="tel" readonly="true" value="${sessionScope.admin.tel }" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="professional" class="col-sm-1 control-label">职称</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control update" id="professional"  name="professional" readonly="true" value="${sessionScope.admin.professional }" disabled>
+				</div>
+				<label for="dept" class="col-sm-1 control-label">专业</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control update" id="dept"  name="dept" readonly="true" value="${sessionScope.admin.dept }" disabled>
+				</div>
+			</div>
+			<input type="hidden" name="tid" value="${sessionScope.admin.tid }">
+		</form>
+	</div>

@@ -1,0 +1,78 @@
+@CHARSET "UTF-8";
+.my-navbar{
+    width:100%;
+    color: #fff;
+    padding: 0 20px;
+    margin-bottom:0;
+    border-radius:0;
+	background: -webkit-linear-gradient(top, #3993ba 0%,#067ead 100%);
+}
+.navbar a{
+	color:#fff;
+}
+.navbar a:hover{
+	color:#3993ba ;
+}
+.navbar h2{
+	display: inline-block;
+    margin: 0;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+    line-height: 48px;
+    cursor: pointer;
+}
+.mysidebar{
+	position:fixed;
+	width:15%;
+	min-height:100%;
+	border-right: 1px solid #ccc;
+}
+.mysidebar a{
+	color:#333;
+}
+.sidebar .sidebar-nav.navbar-collapse {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.sidebar .sidebar-search {
+    padding: 15px;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.sidebar ul li a.active {
+    background-color: #eee;
+}
+
+.sidebar .arrow {
+    float: right;
+}
+
+.sidebar .fa.arrow:before {
+    content: "\f104";
+}
+
+.sidebar .active>a>.fa.arrow:before {
+    content: "\f107";
+}
+
+.sidebar .nav-second-level li,
+.sidebar .nav-third-level li {
+    border-bottom: 0!important;
+}
+
+.sidebar .nav-second-level li a {
+    padding-left: 37px;
+}
+
+.sidebar .nav-third-level li a {
+    padding-left: 52px;
+}
+#teacher-content{
+	width:85%;
+	float: right;
+    padding: 30px;
+}

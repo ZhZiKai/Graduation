@@ -1,0 +1,102 @@
+package com.cn.graduation.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.cn.graduation.common.AjaxObject;
+import com.cn.graduation.model.Group;
+import com.cn.graduation.model.Student;
+import com.cn.graduation.model.SysDate;
+import com.cn.graduation.model.Teacher;
+
+@Service
+public interface AdminService {
+
+	public Teacher query(Teacher one);
+	
+	public List<Teacher> getAllTeacher(int startPos, int pageSize);
+
+	public List<Student> getAllStudent(int startPos, int pageSize);
+
+	public AjaxObject ajax_insert(Teacher one);
+
+	public long getTeacherCount();
+
+	public long getStudentCount();
+
+	public AjaxObject insertStudent(Student student);
+	
+	public AjaxObject insertTeacher(Teacher one);
+
+	public List getAllDate();
+
+	public AjaxObject insertTime(SysDate one);
+
+	public List getAllGroup();
+
+//	public void insertGroup(String teachers, String students, String name);
+
+	public List getSomeTeacher(int startPos, int pageSize);
+
+	public List getSomeStudent(int startPos, int pageSize);
+
+	public List showdistribution();
+
+	public List distributeStudent();
+
+	public List distributeStudent(int startPos, int pageSize);
+
+	public long getStudentCountByTeacher();
+
+	public long getStudentCountByGroup();
+
+	public long getTeacherCountByGroup();
+	
+	public void addStudent(Student student);
+
+	public AjaxObject confirmStudent(String account, String sids);
+
+	public Teacher queryTeacher(Teacher one);
+	
+	public Student queryStudent(Student one);
+
+	public AjaxObject modifyTeacher(Teacher one);
+	
+	public AjaxObject modifyStudent(Student one);
+
+	public AjaxObject deleteTeacher(Teacher one);
+	
+	public void deleteStudent(Student one);
+
+	public void deleteDistribution(Teacher one);
+
+	public List getMyStudent(Teacher one);
+
+	public void updateStudentTeacher(Student student);
+
+	public List showGroupTeacher(Group group);
+
+	public List showGroupStudent(Group group);
+
+	public void removeTeacherGroup(Teacher teacher);
+
+	public void removeStudentGroup(Student student);
+
+	public void insertGroupName(String name);
+
+	public void insertGroupTeacher(String name, String ids);
+
+	public void insertGroupStudent(String name, String sids);
+
+	public SysDate getTime(SysDate one);
+
+	public void updateTime(SysDate one);
+
+	public AjaxObject clearTime(SysDate one);
+
+	public void freshGroup();
+
+	public void deleteGroup(Group one);
+
+}
